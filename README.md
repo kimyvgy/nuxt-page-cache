@@ -1,5 +1,5 @@
-# nuxt-awesome-cache
-[![NPM version](https://img.shields.io/npm/v/nuxt-page-cache.svg)](https://www.npmjs.com/package/nuxt-awesome-cache)
+# @kimyvgy/nuxt-page-cache
+[![NPM version](https://img.shields.io/npm/v/@kimyvgy/nuxt-page-cache.svg)](https://www.npmjs.com/package/@kimyvgy/nuxt-page-cache)
 
 Page-level caching module for Nuxt.js (multi-stores).
 
@@ -9,10 +9,10 @@ Install via NPM/Yarn:
 
 ```bash
 # yarn
-yarn add nuxt-awesome-cache
+yarn add @kimyvgy/nuxt-page-cache
 
 # or npm
-npm install nuxt-awesome-cache
+npm install @kimyvgy/nuxt-page-cache
 ```
 
 ## Setup
@@ -45,14 +45,14 @@ module.exports = {
     pages: [
       // these are prefixes of pages that need to be cached
       // if you want to cache all pages, just include '/'
-      '/page1', // will cache all pages: /pages1*
-      '/page2',
+      '/page1', // will cache all pages: /page1*
+      '/page2', // will cache all pages: /page2*
 
       // you can also pass a regular expression to test a path
       /^\/page3\/\d+$/,
 
       // to cache only root route, use a regular expression
-      /^\/$/
+      /^\/$/, // will cache only for homepage: /
     ],
 
     key(route, context) {
