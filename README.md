@@ -3,6 +3,14 @@
 
 Page-level caching module for Nuxt.js (multi-stores).
 
+## Supported Stores
+
+- [Memory](#configuration)
+- [Redis](#redis-store)
+- [Memcached](#memcached-store)
+- [IORedis](#ioredis-store)
+- [Multi cache layered](#multi-cache-layered)
+
 ## Installation
 
 Install via NPM/Yarn:
