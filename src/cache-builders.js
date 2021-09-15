@@ -48,11 +48,19 @@ function multiCache(config) {
     return cacheManager.multiCaching(stores);
 }
 
+function ioredisCache(config) {
+    return cacheManager.caching({
+        store: require('cache-manager-ioredis'),
+        ...config,
+    });
+}
+
 const cacheBuilders = {
     memory: memoryCache,
     multi: multiCache,
     redis: redisCache,
     memcached: memcachedCache,
+    ioredis: ioredisCache,
 };
 
 function makeCache(config = { type: 'memory' }) {

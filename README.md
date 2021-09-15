@@ -129,6 +129,24 @@ module.exports = {
 ```
 Uses [cache-manager-memcached-store](https://www.npmjs.com/package/cache-manager-memcached-store) under the hood.
 
+### `ioredis` store
+
+```javascript
+module.exports = {
+  // ....
+  cache: {
+    // ....
+    store: {
+      type: 'ioredis',
+      options: {
+        hosts: ['localhost:6379'],
+      },
+    },
+  },
+}
+```
+Uses [cache-manager-ioredis](https://www.npmjs.com/package/cache-manager-ioredis) under the hood.
+
 ### `multi` cache (layered)
 
 ```javascript

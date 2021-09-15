@@ -88,3 +88,14 @@ describe('multi', () => {
     expect(await cache.getAsync('sample')).to.be.eql('data');
   });
 });
+
+describe('ioredisCache', () => {
+    it('should return cached result', async () => {
+        const cache = makeCache({
+            type: 'ioredis',
+            host: process.env.CACHE_HOST || 'localhost'
+        });
+        cache.setAsync('sample', 'data');
+        expect(await cache.getAsync('sample')).to.be.eql('data');
+    });
+});
