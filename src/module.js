@@ -23,12 +23,12 @@ function tryStoreVersion(cache, version) {
         .then(() => { cache.versionSaved = true; });
 }
 
-module.exports = function cacheRenderer(nuxt, config) {
+module.exports = function pageCache(nuxt, config) {
     // used as a nuxt module, only config is provided as argument
     // and nuxt instance will be provided as this context
     if (arguments.length < 2 && this.nuxt) {
-      nuxt = this.nuxt;
-      config = this.options;
+        nuxt = this.nuxt;
+        config = this.options;
     }
 
     if (!config.cache || !Array.isArray(config.cache.pages) || !config.cache.pages.length || !nuxt.renderer) {
@@ -37,7 +37,7 @@ module.exports = function cacheRenderer(nuxt, config) {
 
     function isCacheFriendly(path, context) {
         if (typeof (config.cache.isCacheable) === 'function') {
-          return config.cache.isCacheable(path, context);
+            return config.cache.isCacheable(path, context);
         }
 
         return !context.res.spa &&
@@ -64,8 +64,8 @@ module.exports = function cacheRenderer(nuxt, config) {
       const keyConfig = (config.cache.key || defaultCacheKeyBuilder)(route, context);
 
       return {
-        cacheKey: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
-        ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.cache.store.ttl
+        key: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
+        ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.cache.store.ttl,
       }
     }
 
