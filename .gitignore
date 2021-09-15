@@ -1,0 +1,21 @@
+# Output files
+lib/
+
+# IDE
+.idea
+.vscode
+
+# Dependency directories
+node_modules/
+.npm/
+yarn.lock
+yarn-error.log*
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity

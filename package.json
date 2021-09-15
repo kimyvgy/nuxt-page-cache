@@ -1,0 +1,45 @@
+{
+  "name": "@kimyvgy/nuxt-page-cache",
+  "version": "1.0.0",
+  "description": "Page-level caching module for Nuxt.js (multi-stores).",
+  "main": "lib/module.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "test": "yarn mocha -r chai/register-expect tests",
+    "prepublish": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kimyvgy/nuxt-page-cache.git"
+  },
+  "keywords": [
+    "nuxt",
+    "ssr",
+    "cache",
+    "redis",
+    "vue",
+    "spa"
+  ],
+  "author": "Kim Nguyen <kimnh@webee.asia>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kimyvgy/nuxt-page-cache/issues"
+  },
+  "homepage": "https://github.com/kimyvgy/nuxt-page-cache#readme",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "cache-manager": "^2.9.1",
+    "redis": "^2.8.0"
+  },
+  "optionalDependencies": {
+    "cache-manager-memcached-store": "^2.1.0",
+    "cache-manager-redis": "^0.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}
