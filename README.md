@@ -3,6 +3,8 @@
 
 Page-level caching module for Nuxt.js (multi-stores).
 
+This module is based on [arash16/nuxt-ssr-cache](https://github.com/arash16/nuxt-ssr-cache) with more features added.
+
 ## Supported Stores
 
 - [Memory](#configuration)
