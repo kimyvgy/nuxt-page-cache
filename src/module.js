@@ -2,7 +2,6 @@ const path = require('path');
 const {serialize, deserialize} = require('./serializer');
 const makeCache = require('./cache-builders');
 
-
 function cleanIfNewVersion(cache, version) {
     if (!version) return;
     return cache.getAsync('appVersion')
@@ -49,24 +48,28 @@ module.exports = function pageCache(nuxt, config) {
     }
 
     function defaultCacheKeyBuilder(route, context) {
-      var hostname = context.req && context.req.hostname || context.req && context.req.host;
-      if(!hostname) return;
-      const cacheKey = config.cache.useHostPrefix === true && hostname
-        ? path.join(hostname, route)
-        : route;
+        const hostname = context.req && context.req.hostname
+            || context.req && context.req.host
+            || context.req && context.req.headers && context.req.headers.host;
 
-      return cacheKey;
+        if(!hostname) return;
+
+        const cacheKey = config.cache.useHostPrefix === true && hostname
+            ? path.join(hostname, route)
+            : route;
+
+        return cacheKey;
     }
 
     function buildCacheKey(route, context) {
-      if (!isCacheFriendly(route, context)) return { key: null }
+        if (!isCacheFriendly(route, context)) return { key: null }
 
-      const keyConfig = (config.cache.key || defaultCacheKeyBuilder)(route, context);
+        const keyConfig = (config.cache.key || defaultCacheKeyBuilder)(route, context);
 
-      return {
-        key: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
-        ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.cache.store.ttl,
-      }
+        return {
+            key: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
+            ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.cache.store.ttl,
+        }
     }
 
     const currentVersion = config.version || config.cache.version;
