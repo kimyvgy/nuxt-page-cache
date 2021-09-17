@@ -22,11 +22,13 @@ function tryStoreVersion(cache, version) {
         .then(() => { cache.versionSaved = true; });
 }
 
-module.exports = function pageCache(_options) {
+module.exports = function pageCache(_nuxt, _options) {
     // used as a nuxt module, only config is provided as argument
     // and nuxt instance will be provided as this context
-    const nuxt = this.nuxt
-    const config = Object.assign({}, this.options.cache, _options)
+    const isNuxtModule = arguments.length < 2 && this.nuxt
+
+    const nuxt = isNuxtModule ? this.nuxt : _nuxt
+    const config = isNuxtModule ? Object.assign({}, this.options.cache, _nuxt) : _options
 
     if (!nuxt
         || !Object.keys(config)
