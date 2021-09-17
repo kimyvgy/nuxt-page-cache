@@ -7,7 +7,7 @@ This module is based on [arash16/nuxt-ssr-cache](https://github.com/arash16/nuxt
 
 ## Supported Stores
 
-- [Memory](#configuration)
+- [Memory](#page-cache-options)
 - [Redis](#redis-store)
 - [Memcached](#memcached-store)
 - [IORedis](#ioredis-store)
@@ -29,7 +29,31 @@ npm install @kimyvgy/nuxt-page-cache
 
 ### Configuration
 
-Please add add `cache` property in `nuxt.config.js` file:
+Please activate this module in `nuxt.config.js`:
+1. Passing options directly
+```javascript
+module.exports = {
+    modules: [
+        ['@kimyvgy/nuxt-page-cache', options],
+        // ...
+    ]
+}
+```
+2. Or you can provide `cache` property in `nuxt.config.js`:
+```javascript
+module.exports = {
+    modules: [
+        '@kimyvgy/nuxt-page-cache',
+        // ...
+    ],
+
+    cache: {
+        // ...
+    },
+}
+```
+
+#### Page Cache Options
 
 ```javascript
 module.exports = {
@@ -72,6 +96,9 @@ module.exports = {
       // - return string value to cache this page with default TTL value.
       // - return { key: "your_cache_key", ttl: 84600 }
       //    to return cache key with customized TTL value.
+      if (/\/articles\/.+/.test(context.req.url)) {
+        return { key: context.req.url, ttl: 84600 } // 1 day for page: /articles/*
+      }
     },
 
     isCacheable(route, context) {
