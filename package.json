@@ -1,6 +1,6 @@
 {
   "name": "@kimyvgy/nuxt-page-cache",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Page-level caching module for Nuxt.js (multi-stores).",
   "main": "lib/module.js",
   "scripts": {
