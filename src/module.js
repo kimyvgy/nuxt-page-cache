@@ -22,25 +22,29 @@ function tryStoreVersion(cache, version) {
         .then(() => { cache.versionSaved = true; });
 }
 
-module.exports = function pageCache(nuxt, config) {
+module.exports = function pageCache(_options) {
     // used as a nuxt module, only config is provided as argument
     // and nuxt instance will be provided as this context
-    if (arguments.length < 2 && this.nuxt) {
-        nuxt = this.nuxt;
-        config = this.options;
-    }
+    const nuxt = this.nuxt
+    const config = Object.assign({}, this.options.cache, _options)
 
-    if (!config.cache || !Array.isArray(config.cache.pages) || !config.cache.pages.length || !nuxt.renderer) {
+    if (!nuxt
+        || !Object.keys(config)
+        || !Array.isArray(config.pages)
+        || !config.pages.length
+        || !nuxt.renderer
+    ) {
+        console.warn('nuxt-page-cache\'s configuration is missing.')
         return;
     }
 
     function isCacheFriendly(path, context) {
-        if (typeof (config.cache.isCacheable) === 'function') {
-            return config.cache.isCacheable(path, context);
+        if (typeof (config.isCacheable) === 'function') {
+            return config.isCacheable(path, context);
         }
 
         return !context.res.spa &&
-            config.cache.pages.some(pat =>
+            config.pages.some(pat =>
                 pat instanceof RegExp
                     ? pat.test(path)
                     : path.startsWith(pat)
@@ -54,7 +58,7 @@ module.exports = function pageCache(nuxt, config) {
 
         if(!hostname) return;
 
-        const cacheKey = config.cache.useHostPrefix === true && hostname
+        const cacheKey = config.useHostPrefix === true && hostname
             ? path.join(hostname, route)
             : route;
 
@@ -64,16 +68,16 @@ module.exports = function pageCache(nuxt, config) {
     function buildCacheKey(route, context) {
         if (!isCacheFriendly(route, context)) return { key: null }
 
-        const keyConfig = (config.cache.key || defaultCacheKeyBuilder)(route, context);
+        const keyConfig = (config.key || defaultCacheKeyBuilder)(route, context);
 
         return {
             key: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
-            ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.cache.store.ttl,
+            ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.store.ttl,
         }
     }
 
-    const currentVersion = config.version || config.cache.version;
-    const cache = makeCache(config.cache.store);
+    const currentVersion = config.version || config.version;
+    const cache = makeCache(config.store);
     cleanIfNewVersion(cache, currentVersion);
 
     const renderer = nuxt.renderer;
