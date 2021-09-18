@@ -28,7 +28,9 @@ module.exports = function pageCache(_nuxt, _options) {
     const isNuxtModule = arguments.length < 2 && this.nuxt
 
     const nuxt = isNuxtModule ? this.nuxt : _nuxt
-    const config = isNuxtModule ? Object.assign({}, this.options.cache, _nuxt) : _options
+    const config = isNuxtModule
+        ? Object.assign({}, this.options && this.options.cache, _nuxt)
+        : _options
 
     if (!Object.keys(config) || !Array.isArray(config.pages) || !config.pages.length) {
         console.warn('nuxt-page-cache\'s configuration is missing.')
@@ -77,7 +79,7 @@ module.exports = function pageCache(_nuxt, _options) {
         }
     }
 
-    const currentVersion = config.version || config.version;
+    const currentVersion = config.version || this.options && this.options.version;
     const cache = makeCache(config.store);
     cleanIfNewVersion(cache, currentVersion);
 
