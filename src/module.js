@@ -32,12 +32,12 @@ module.exports = function pageCache(_nuxt, _options) {
         ? Object.assign({}, this.options && this.options.cache, _nuxt)
         : _options
 
-    if (!Object.keys(config) || !Array.isArray(config.pages) || !config.pages.length) {
-        console.warn('nuxt-page-cache\'s configuration is missing.')
+    if (config.enabled === false || !nuxt || !nuxt.renderer) {
         return;
     }
 
-    if (!nuxt || !nuxt.renderer) {
+    if (!Object.keys(config) || !Array.isArray(config.pages) || !config.pages.length) {
+        console.warn('nuxt-page-cache\'s configuration is missing.')
         return;
     }
 

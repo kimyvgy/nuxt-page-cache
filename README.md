@@ -57,11 +57,6 @@ module.exports = {
 
 ```javascript
 module.exports = {
-  // If you provide a version, it will be stored inside cache.
-  // Later when you deploy a new version, old cache will be
-  // automatically purged.
-  version: pkg.version,
-
   // ....
 
   modules: [
@@ -69,6 +64,15 @@ module.exports = {
   ],
 
   cache: {
+    // enable page-cache module for the production only
+    enabled: process.env.NODE_ENV === 'production',
+
+    // If you provide a version, it will be stored inside cache.
+    // Later when you deploy a new version, old cache will be
+    // automatically purged.
+    // EX: `myapp.v${pkg.version}-build-${process.env.CI_BUILD_NUMBER}`
+    version: pkg.version,
+
     // if you're serving multiple host names (with differing
     // results) from the same server, set this option to true.
     // (cache keys will be prefixed by your host name)
@@ -76,6 +80,7 @@ module.exports = {
     // express or whatever else that uses 'X-Forwarded-Host'
     // header field to provide req.hostname (actual host name)
     useHostPrefix: false,
+
     pages: [
       // these are prefixes of pages that need to be cached
       // if you want to cache all pages, just include '/'
