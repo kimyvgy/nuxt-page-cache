@@ -91,7 +91,7 @@ module.exports = function pageCache(_nuxt, _options) {
 
         const { key: cacheKey, ttl } = buildCacheKey(route, context)
 
-        if (!cacheKey) return renderRoute(route, context);
+        if (!cacheKey || !renderer.renderer.isReady) return renderRoute(route, context);
 
         function renderSetCache(){
             return renderRoute(route, context)

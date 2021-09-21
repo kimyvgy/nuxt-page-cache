@@ -53,7 +53,7 @@ module.exports = {
 }
 ```
 
-#### Page Cache Options
+### Page Cache Options
 
 ```javascript
 module.exports = {
@@ -210,6 +210,11 @@ module.exports = {
   },
 }
 ```
+
+## Notes
+
+- `version` property can define at root-level of `nuxt.config.js` or inside module options.
+- `version` value must be uniqued for each release to make sure the cached pages are pured after deploying to production. Your code changed -> content hash changed -> assets URL changed. I recommend to use CI build number if you are using CI/CD.
 
 ## License
 MIT
