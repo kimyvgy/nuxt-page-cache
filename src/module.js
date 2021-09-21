@@ -74,11 +74,12 @@ module.exports = function pageCache(_nuxt, _options) {
         const keyConfig = (config.key || defaultCacheKeyBuilder)(route, context);
 
         return {
-            key: typeof keyConfig === 'object' ? keyConfig.key : `${keyConfig}`,
+            key: typeof keyConfig === 'object' ? keyConfig.key : keyConfig,
             ttl: typeof keyConfig === 'object' ? keyConfig.ttl : config.store.ttl,
         }
     }
 
+    const cacheStatusHeader = typeof config.cacheStatusHeader === 'string' && config.cacheStatusHeader;
     const currentVersion = config.version || this.options && this.options.version;
     const cache = makeCache(config.store);
     cleanIfNewVersion(cache, currentVersion);
@@ -89,13 +90,23 @@ module.exports = function pageCache(_nuxt, _options) {
         // hopefully cache reset is finished up to this point.
         tryStoreVersion(cache, currentVersion);
 
+        function setHeader(name, value) {
+            if (name) {
+                context.res.set(name, value);
+            }
+        }
+
         const { key: cacheKey, ttl } = buildCacheKey(route, context)
 
-        if (!cacheKey || !renderer.renderer.isReady) return renderRoute(route, context);
+        if (!cacheKey || !renderer.renderer.isReady) {
+            setHeader(cacheStatusHeader, 'NONE')
+            return renderRoute(route, context);
+        }
 
         function renderSetCache(){
             return renderRoute(route, context)
                 .then(function(result) {
+                    setHeader(cacheStatusHeader, 'MISS')
                     if (!result.error && !result.redirected) {
                         cache.setAsync(cacheKey, serialize(result), { ttl });
                     }
@@ -106,6 +117,7 @@ module.exports = function pageCache(_nuxt, _options) {
         return cache.getAsync(cacheKey)
             .then(function (cachedResult) {
                 if (cachedResult) {
+                    setHeader(cacheStatusHeader, 'HIT')
                     return deserialize(cachedResult);
                 }
 
