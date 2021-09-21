@@ -67,6 +67,12 @@ module.exports = {
     // enable page-cache module for the production only
     enabled: process.env.NODE_ENV === 'production',
 
+    // add x-cache-status header into response:
+    // MISS: The page was not found in Cache Storage
+    // HIT: The page was found in Cache Storage
+    // NONE: The page is not eligible for caching
+    cacheStatusHeader: 'x-cache-status',
+
     // If you provide a version, it will be stored inside cache.
     // Later when you deploy a new version, old cache will be
     // automatically purged.
@@ -106,12 +112,16 @@ module.exports = {
       }
     },
 
+    // if you don't use `pages` property, you can define `isCacheable` instead
+    /*
     isCacheable(route, context) {
         // custom function to decide this page that need to be cached,
         // when used the "pages" property will be ignored.
         // return falsy to bypass the cache.
     },
+    */
 
+    // cache storage configuration
     store: {
       type: 'memory',
 
