@@ -80,6 +80,7 @@ module.exports = function pageCache(_nuxt, _options) {
     }
 
     const cacheStatusHeader = typeof config.cacheStatusHeader === 'string' && config.cacheStatusHeader;
+    const setHeaderFunc = typeof config.setHeaderFunc === 'string' ? config.setHeaderFunc : 'setHeader';
     const currentVersion = config.version || this.options && this.options.version;
     const cache = makeCache(config.store);
     cleanIfNewVersion(cache, currentVersion);
@@ -91,8 +92,8 @@ module.exports = function pageCache(_nuxt, _options) {
         tryStoreVersion(cache, currentVersion);
 
         function setHeader(name, value) {
-            if (name) {
-                context.res.set(name, value);
+            if (name && typeof context.res[setHeaderFunc] === 'function') {
+                context.res[setHeaderFunc](name, value);
             }
         }
 
