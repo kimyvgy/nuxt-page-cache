@@ -73,6 +73,11 @@ module.exports = {
     // NONE: The page is not eligible for caching
     cacheStatusHeader: 'x-cache-status',
 
+    // The name of function that can be used to set cacheStatusHeader.
+    // Ex: - Express: 'set'
+    //     - Connect: 'setHeader' (default of Nuxt.js) 
+    // setHeaderFunc: 'setHeader',
+
     // If you provide a version, it will be stored inside cache.
     // Later when you deploy a new version, old cache will be
     // automatically purged.
