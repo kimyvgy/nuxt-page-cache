@@ -75,7 +75,7 @@ module.exports = {
 
     // The name of function that can be used to set cacheStatusHeader.
     // Ex: - Express: 'set'
-    //     - Connect: 'setHeader' (default of Nuxt.js) 
+    //     - Connect: 'setHeader' (default of Nuxt.js)
     // setHeaderFunc: 'setHeader',
 
     // If you provide a version, it will be stored inside cache.
@@ -154,8 +154,12 @@ module.exports = {
     // ....
     store: {
       type: 'redis',
-      host: 'localhost',
-      ttl: 10 * 60,
+      host: process.env.REDIS_HOST || 'localhost',
+      port: process.env.REDIS_PORT || 6379,
+      password: process.env.REDIS_PASSWORD,
+      db: process.env.REDIS_DB,
+      prefix: process.env.REDIS_PREFIX,
+      ttl: 600, // seconds
       configure: [
         // these values are configured
         // on redis upon initialization
